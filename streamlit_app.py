@@ -299,7 +299,7 @@ if uploaded_file:
             ice=False,
         )
         st.pyplot(bbox_inches='tight')
-        st.write(f"The dependence plot shows how the feature `{X_test.columns[most_important_feature]}` affects the model's predictions.")
+        st.write(f"The dependence plot shows how the feature `{most_important_feature}` affects the model's predictions.")
 
     # Force plot for a single prediction
     st.subheader('SHAP Force Plot')
