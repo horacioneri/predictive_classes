@@ -185,9 +185,7 @@ if uploaded_file:
                 # Round to 3 digits
                 rf_results = rf_results.round(3)
 
-rf_results = rf_results.round(3)
-        
-    status.update(label="Status", state="complete", expanded=False)
+        status.update(label="Status", state="complete", expanded=False)
 
     # Display data info
     st.header('Input data', divider='rainbow')
@@ -203,7 +201,7 @@ rf_results = rf_results.round(3)
     y_train.to_csv('y_train.csv', index=False)
     X_test.to_csv('X_test.csv', index=False)
     y_test.to_csv('y_test.csv', index=False)
-    
+
     list_files = ['dataset.csv', 'X_train.csv', 'y_train.csv', 'X_test.csv', 'y_test.csv']
     with zipfile.ZipFile('dataset.zip', 'w') as zipF:
         for file in list_files:
@@ -216,24 +214,24 @@ rf_results = rf_results.round(3)
                 file_name="dataset.zip",
                 mime="application/octet-stream"
                 )
-    
+
     # Display model parameters
     st.header('Model parameters', divider='rainbow')
     parameters_col = st.columns(2)
     parameters_col[0].metric(label="Data split ratio (% for Training Set)", value=parameter_split_size, delta="")
     parameters_col[1].metric(label="Number of estimators (n_estimators)", value=parameter_n_estimators, delta="")
     #parameters_col[2].metric(label="Max features (max_features)", value=parameter_max_features_metric, delta="")
-    
+
     # Display feature importance plot
     importances = rf.feature_importances_
     feature_names = list(X_combined.columns)
     forest_importances = pd.Series(importances, index=feature_names)
     df_importance = forest_importances.reset_index().rename(columns={'index': 'feature', 0: 'value'})
-    
+
     bars = alt.Chart(df_importance).mark_bar(size=40).encode(
-             x='value:Q',
-             y=alt.Y('feature:N', sort='-x')
-           ).properties(height=250)
+                x='value:Q',
+                y=alt.Y('feature:N', sort='-x')
+            ).properties(height=250)
 
     performance_col = st.columns((2, 0.2, 3))
     with performance_col[0]:
@@ -328,13 +326,13 @@ rf_results = rf_results.round(3)
         
     #s_y_test = pd.Series(y_test, name='actual').reset_index(drop=True)
     #s_y_test_pred = pd.Series(y_test_pred, name='predicted').reset_index(drop=True)
-   # df_test = pd.DataFrame(data=[s_y_test, s_y_test_pred], index=None).T
+    # df_test = pd.DataFrame(data=[s_y_test, s_y_test_pred], index=None).T
     #df_test['class'] = 'test'
-    
+
     #df_prediction = pd.concat([df_train, df_test], axis=0)
-    
+
     #prediction_col = st.columns((2, 0.2, 3))
-    
+
     # Display dataframe
     #with prediction_col[0]:
     #    st.dataframe(df_prediction, height=320, use_container_width=True)
@@ -348,7 +346,7 @@ rf_results = rf_results.round(3)
     #              )
     #    st.altair_chart(scatter, theme='streamlit', use_container_width=True)
 
-    
+
 # Ask for CSV upload if none is detected
 else:
     st.warning('👈 Upload a CSV file or click *"Load example data"* to get started!')
