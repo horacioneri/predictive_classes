@@ -255,7 +255,7 @@ if uploaded_file:
     explainer = shap.Explainer(rf, X_train)
 
     # Calculate SHAP values for the test set
-    shap_values = explainer(X_test)
+    shap_values = explainer(X_test, check_additivity=False)
 
     # Summary plot of SHAP values
     st.subheader('SHAP Summary Plot')
@@ -270,7 +270,7 @@ if uploaded_file:
         # Find the most important feature from the SHAP values
         most_important_feature = np.abs(shap_values.values).mean(axis=0).argmax()
         shap.dependence_plot(
-            most_important_feature, shap_values, X_test, feature_names=X_test.columns, show=False
+            most_important_feature, shap_values.values, X_test, feature_names=X_test.columns, show=False
         )
         st.pyplot(bbox_inches='tight')
         st.write(f"The dependence plot shows how the feature `{X_test.columns[most_important_feature]}` affects the model's predictions.")
@@ -280,7 +280,7 @@ if uploaded_file:
     with st.spinner('Generating SHAP force plot...'):
         # Choose an index for a specific prediction (e.g., the first prediction)
         shap.force_plot(
-            explainer.expected_value, shap_values[0, :], X_test.iloc[0, :], feature_names=X_test.columns, matplotlib=True
+            explainer.expected_value, shap_values.values[0, :], X_test.iloc[0, :], feature_names=X_test.columns, matplotlib=True
         )
         st.pyplot(bbox_inches='tight')
         st.write("The force plot shows the contribution of each feature to a single prediction.")
