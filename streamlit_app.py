@@ -273,7 +273,7 @@ if uploaded_file:
         one_hot_features = [col for col in X_test.columns if any(col.startswith(prefix) for prefix in categorical_cols)]
 
         # Get all numerical features (which includes both continuous and one-hot)
-        numerical_features = X.select_dtypes(include=[np.number]).columns.tolist()
+        numerical_features = X_test.select_dtypes(include=[np.number]).columns.tolist()
 
         # Identify continuous features from the original list that are still in the DataFrame
         continuous_features = [feature for feature in numerical_features if feature not in one_hot_features]
@@ -283,13 +283,19 @@ if uploaded_file:
 
         # If continuous features exist, get the most important one
         if len(continuous_features) > 0:
-            most_important_feature = continuous_features[np.argmax(abs_shap_values[:, X_test.columns.get_indexer(continuous_features)].mean(axis=0))]
+            most_important_continuous_feature_index = np.argmax(abs_shap_values[:, X.columns.get_indexer(continuous_features)].mean(axis=0))
+            most_important_feature = continuous_features[most_important_continuous_feature_index]
         else:
             # Otherwise, get the overall most important feature
-            most_important_feature = X_test.columns[np.argmax(abs_shap_values.mean(axis=0))]
-        
-        shap.dependence_plot(
-            most_important_feature, shap_values.values, X_test, feature_names=X_test.columns, show=False
+            most_important_feature = X_test.columns[np.abs(shap_values.values).mean(axis=0).argmax()]
+        sample_ind = 20
+        shap.partial_dependence_plot(
+            most_important_feature,
+            rf.predict,
+            X_train,
+            model_expected_value=True,
+            feature_expected_value=True,
+            ice=False,
         )
         st.pyplot(bbox_inches='tight')
         st.write(f"The dependence plot shows how the feature `{X_test.columns[most_important_feature]}` affects the model's predictions.")
