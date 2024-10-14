@@ -205,8 +205,10 @@ if uploaded_file:
     y_train.to_csv('y_train.csv', index=False)
     X_test.to_csv('X_test.csv', index=False)
     y_test.to_csv('y_test.csv', index=False)
-    y_train_pred.to_csv('pred_train.csv', index=False)
-    y_test_pred.to_csv('pred_test.csv', index=False)
+    y_train_pred_df = pd.DataFrame(y_train_pred)
+    y_test_pred_df = pd.DataFrame(y_test_pred)
+    y_train_pred_df.to_csv('pred_train.csv', index=False)
+    y_test_pred_df.to_csv('pred_test.csv', index=False)
 
     list_files = ['dataset.csv', 'X_train.csv', 'y_train.csv', 'X_test.csv', 'y_test.csv', 'pred_train.csv', 'pred_test.csv']
     with zipfile.ZipFile('dataset.zip', 'w') as zipF:
