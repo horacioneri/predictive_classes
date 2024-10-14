@@ -260,7 +260,7 @@ if uploaded_file:
     # Summary plot of SHAP values
     st.subheader('SHAP Summary Plot')
     with st.spinner('Generating SHAP summary plot...'):
-        shap.summary_plot(shap_values, features=X_test, feature_names=X_test.columns, plot_type='beeswarm', show=False)
+        shap.summary_plot(shap_values, features=X_test, plot_type='beeswarm', feature_names=X_test.columns)
         st.pyplot(bbox_inches='tight')
         st.write("The summary plot shows the average impact of each feature on the model's predictions and its direction.")
 
