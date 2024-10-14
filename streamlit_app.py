@@ -68,19 +68,19 @@ with st.sidebar:
     st.header('2. Problem Type')
     problem_type = st.sidebar.radio('Choose model type:', ['Regression', 'Classification'])
 
-    st.header('2. Set Parameters')
+    st.header('3. Set Parameters')
 
-    st.subheader('2.1. Training Parameters')
+    st.subheader('3.1. Training Parameters')
     parameter_split_size = st.slider('Data split ratio (% for Training Set)', 10, 90, 80, 5)
 
-    st.subheader('2.2. Learning Parameters')
+    st.subheader('3.2. Learning Parameters')
     with st.expander('See parameters'):
         parameter_n_estimators = st.slider('Number of estimators (n_estimators)', 5, 50, 5, 5)
         parameter_max_features = st.select_slider('Max features (max_features)', options=['all', 'sqrt', 'log2'])
         parameter_min_samples_split = st.slider('Minimum number of samples required to split an internal node (min_samples_split)', 2, 10, 2, 1)
         parameter_min_samples_leaf = st.slider('Minimum number of samples required to be at a leaf node (min_samples_leaf)', 1, 10, 2, 1)
 
-    st.subheader('2.3. General Parameters')
+    st.subheader('3.3. General Parameters')
     with st.expander('See parameters', expanded=False):
         parameter_random_state = st.slider('Seed number (random_state)', 0, 1000, 42, 1)
         if problem_type == 'Regression':
