@@ -8,7 +8,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.preprocessing import OneHotEncoder
 import altair as alt
-import matplotlib.pyplot as pl
+import matplotlib as pl
 import shap
 import time
 import zipfile
@@ -83,7 +83,10 @@ with st.sidebar:
     st.subheader('2.3. General Parameters')
     with st.expander('See parameters', expanded=False):
         parameter_random_state = st.slider('Seed number (random_state)', 0, 1000, 42, 1)
-        parameter_criterion = st.select_slider('Performance measure (criterion)', options=['squared_error', 'absolute_error', 'poisson', 'firedman_mse'])
+        if problem_type = 'Regression':
+            parameter_criterion = st.select_slider('Performance measure (criterion)', options=['squared_error', 'absolute_error', 'poisson', 'firedman_mse', ])
+        else:
+            parameter_criterion = st.select_slider('Performance measure (criterion)', options=['gini', 'entropy', 'log_loss'])
         parameter_bootstrap = st.select_slider('Bootstrap samples when building trees (bootstrap)', options=[True, False])
         parameter_oob_score = st.select_slider('Whether to use out-of-bag samples to estimate the R^2 on unseen data (oob_score)', options=[False, True])
 
