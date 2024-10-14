@@ -233,11 +233,15 @@ if uploaded_file:
                 y=alt.Y('feature:N', sort='-x')
             ).properties(height=250)
 
-    performance_col = st.columns((2, 0.2, 3))
-    with performance_col[0]:
-        st.header('Model performance', divider='rainbow')
-        st.dataframe(rf_results.T.reset_index().rename(columns={'index': 'Parameter', 0: 'Value'}))
-    with performance_col[2]:
+    if problem_type != "Regression":
+        performance_col = st.columns((2, 0.2, 3))
+        with performance_col[0]:
+            st.header('Model performance', divider='rainbow')
+            st.dataframe(rf_results.T.reset_index().rename(columns={'index': 'Parameter', 0: 'Value'}))
+        with performance_col[2]:
+            st.header('Feature importance', divider='rainbow')
+            st.altair_chart(bars, theme='streamlit', use_container_width=True)
+    else:
         st.header('Feature importance', divider='rainbow')
         st.altair_chart(bars, theme='streamlit', use_container_width=True)
 
