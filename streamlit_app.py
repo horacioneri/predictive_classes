@@ -260,9 +260,9 @@ if uploaded_file:
     # Summary plot of SHAP values
     st.subheader('SHAP Summary Plot')
     with st.spinner('Generating SHAP summary plot...'):
-        shap.summary_plot(shap_values, features=X_test, feature_names=X_test.columns, plot_type='bar', show=False)
+        shap.summary_plot(shap_values, features=X_test, feature_names=X_test.columns, plot_type='beeswarm', show=False)
         st.pyplot(bbox_inches='tight')
-        st.write("The summary plot shows the average impact of each feature on the model's predictions.")
+        st.write("The summary plot shows the average impact of each feature on the model's predictions and its direction.")
 
     # SHAP dependence plot for a specific feature (e.g., the most important feature)
     st.subheader('SHAP Dependence Plot')
