@@ -83,7 +83,7 @@ with st.sidebar:
     st.subheader('2.3. General Parameters')
     with st.expander('See parameters', expanded=False):
         parameter_random_state = st.slider('Seed number (random_state)', 0, 1000, 42, 1)
-        if problem_type = 'Regression':
+        if problem_type == 'Regression':
             parameter_criterion = st.select_slider('Performance measure (criterion)', options=['squared_error', 'absolute_error', 'poisson', 'firedman_mse', ])
         else:
             parameter_criterion = st.select_slider('Performance measure (criterion)', options=['gini', 'entropy', 'log_loss'])
