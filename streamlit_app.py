@@ -260,7 +260,7 @@ if uploaded_file:
     # Summary plot of SHAP values
     st.subheader('SHAP Summary Plot')
     with st.spinner('Generating SHAP summary plot...'):
-        shap.plots.beeswarm(shap_values, max_display = 20)
+        shap.plots.beeswarm(shap_values, max_display = 20, show=False)
         st.pyplot(bbox_inches='tight')
         st.write("The summary plot shows the average impact of each feature on the model's predictions and its direction.")
 
@@ -295,6 +295,7 @@ if uploaded_file:
             X_train,
             model_expected_value=True,
             feature_expected_value=True,
+            show=False,
             ice=False,
         )
         st.pyplot(bbox_inches='tight')
@@ -305,7 +306,7 @@ if uploaded_file:
     with st.spinner('Generating SHAP force plot...'):
         # Choose an index for a specific prediction (e.g., the first prediction)
         shap.force_plot(
-            explainer.expected_value, shap_values.values[0, :], X_test.iloc[0, :], feature_names=X_test.columns, matplotlib=True
+            explainer.expected_value, shap_values.values[0, :], X_test.iloc[0, :], feature_names=X_test.columns, show=False, matplotlib=True
         )
         st.pyplot(bbox_inches='tight')
         st.write("The force plot shows the contribution of each feature to a single prediction.")
