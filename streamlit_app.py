@@ -260,15 +260,34 @@ if uploaded_file:
     # Summary plot of SHAP values
     st.subheader('SHAP Summary Plot')
     with st.spinner('Generating SHAP summary plot...'):
-        shap.summary_plot(shap_values, features=X_test, plot_type='beeswarm', feature_names=X_test.columns)
+        shap.plots.beeswarm(shap_values, max_display = 20)
         st.pyplot(bbox_inches='tight')
         st.write("The summary plot shows the average impact of each feature on the model's predictions and its direction.")
 
     # SHAP dependence plot for a specific feature (e.g., the most important feature)
     st.subheader('SHAP Dependence Plot')
     with st.spinner('Generating SHAP dependence plot...'):
-        # Find the most important feature from the SHAP values
-        most_important_feature = np.abs(shap_values.values).mean(axis=0).argmax()
+        
+        # Identify one-hot encoded features
+        # Assuming one-hot encoded features have a common prefix like 'cat_' or 'feature_'
+        one_hot_features = [col for col in X_test.columns if any(col.startswith(prefix) for prefix in categorical_cols)]
+
+        # Get all numerical features (which includes both continuous and one-hot)
+        numerical_features = X.select_dtypes(include=[np.number]).columns.tolist()
+
+        # Identify continuous features from the original list that are still in the DataFrame
+        continuous_features = [feature for feature in numerical_features if feature not in one_hot_features]
+        
+        # Get absolute SHAP values
+        abs_shap_values = np.abs(shap_values.values)
+
+        # If continuous features exist, get the most important one
+        if len(continuous_features) > 0:
+            most_important_feature = continuous_features[np.argmax(abs_shap_values[:, X_test.columns.get_indexer(continuous_features)].mean(axis=0))]
+        else:
+            # Otherwise, get the overall most important feature
+            most_important_feature = X_test.columns[np.argmax(abs_shap_values.mean(axis=0))]
+        
         shap.dependence_plot(
             most_important_feature, shap_values.values, X_test, feature_names=X_test.columns, show=False
         )
