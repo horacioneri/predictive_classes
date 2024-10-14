@@ -182,8 +182,10 @@ if uploaded_file:
             # Convert objects to numerics
             for col in rf_results.columns:
                 rf_results[col] = pd.to_numeric(rf_results[col], errors='ignore')
-            # Round to 3 digits
-             rf_results = rf_results.round(3)
+                # Round to 3 digits
+                rf_results = rf_results.round(3)
+
+rf_results = rf_results.round(3)
         
     status.update(label="Status", state="complete", expanded=False)
 
